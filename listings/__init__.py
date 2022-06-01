@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 from os import environ
-from flask import Flask, render_template, request
+from flask import Flask
 from flask_cors import CORS
 
 from .database.db import db
@@ -11,6 +11,9 @@ from .routes.main import main_routes
 load_dotenv()
 
 database_uri = environ.get('DATABASE_URL')
+if 'postgres' in database_uri:
+    database_uri = database_uri.replace('postgres:', 'postgresql:')
+
 
 # Set up the app
 
@@ -21,10 +24,11 @@ app.config.update(
 )
 
 CORS(app)
+
 db.app = app
 db.init_app(app)
 
-app.register_blueprint(main_routes)
+app.register_blueprint(main_routes) # Actually link the planned routes to the app
 
 ## Main
 
