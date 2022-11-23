@@ -1,16 +1,17 @@
-from listings import db
+from listings import db, app
 from listings.models.listing import Listing
 
-# Clear it all out
+with app.app_context():
+    # Clear it all out
 
-db.drop_all()
+    db.drop_all()
 
-# Set it back up
+    # Set it back up
 
-db.create_all()
+    db.create_all()
 
-# Seed data
+    # Seed data
 
-l = Listing(title="Start", body="First", email="1@email.com")
-db.session.add(l)
-db.session.commit()
+    l = Listing(title="Start", body="First", email="1@email.com")
+    db.session.add(l)
+    db.session.commit()
